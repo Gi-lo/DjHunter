@@ -1,29 +1,74 @@
+apply from: "$rootProject.projectDir/buildsystem/dependencies.gradle"
+apply from: "$rootProject.projectDir/buildsystem/configurations.gradle"
+
 apply plugin: 'com.android.application'
 
+def library = ext.library;
+def configuration = ext.configuration;
+def testConfiguration = ext.testConfiguration;
+
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
-    defaultConfig {
-        applicationId "de.giuliopetek.djhunter"
-        minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    compileSdkVersion configuration.compileSdkVersion
+    buildToolsVersion configuration.buildToolsVersion
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId configuration.applicationId
+
+        jackOptions.enabled true
+
+        minSdkVersion configuration.minimumSdkVersion
+        targetSdkVersion configuration.targetSdkVersion
+
+        versionCode = configuration.versionMajor * 1000000 + configuration.versionMinor * 10000 + configuration.versionPatch * 100 + configuration.versionBuild
+        versionName = "${configuration.versionMajor}.${configuration.versionMinor}.${configuration.versionPatch}"
+
+        testInstrumentationRunner testConfiguration.testRunner
+    }
+
+    // Flavors
+    productFlavors {
+        dev {
+            minSdkVersion configuration.targetSdkVersion
+        }
+
+        production {
+            minSdkVersion configuration.minimumSdkVersion
+        }
+    }
+
+    // Types
     buildTypes {
+
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+
+            resValue "string", "app_name", "DJHunter (debug)"
+
+            debuggable true;
+            zipAlignEnabled false;
+            signingConfig android.signingConfigs.debug;
+        }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "DJHunter"
+
+            minifyEnabled true
+            shrinkResources true
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
+    compile "${library.support_compat}"
+    compile "${library.support_design}"
 }

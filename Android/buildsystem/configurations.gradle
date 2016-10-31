@@ -1,0 +1,19 @@
+ext.configuration = [
+        applicationId       : 'de.giuliopetek.djhunter',
+        versionMajor        : 0,
+        versionMinor        : 0,
+        versionPatch        : 0,
+        versionBuild        : 1,
+        minimumSdkVersion   : 15,
+        minimumDevSdkVersion: 21,
+        compileSdkVersion   : 24,
+        targetSdkVersion    : 24,
+        buildToolsVersion   : "23.0.2"
+]
+
+ext.testConfiguration = [
+        testRunner: 'de.giuliopetek.djhunter'
+]
+
+def configuration = ext.configuration
+def testConfiguration = ext.testConfiguration

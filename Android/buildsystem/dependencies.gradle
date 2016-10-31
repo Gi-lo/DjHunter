@@ -1,0 +1,10 @@
+ext.version = [
+        support: "23.2.1",
+]
+
+def version = ext.version;
+
+ext.library = [
+        support_compat: "com.android.support:appcompat-v7:${version.support}",
+        support_design: "com.android.support:design:${version.support}",
+]
