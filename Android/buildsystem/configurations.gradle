@@ -7,12 +7,12 @@ ext.configuration = [
         minimumSdkVersion   : 15,
         minimumDevSdkVersion: 21,
         compileSdkVersion   : 24,
-        targetSdkVersion    : 24,
+        targetSdkVersion    : 23,
         buildToolsVersion   : "23.0.2"
 ]
 
 ext.testConfiguration = [
-        testRunner: 'de.giuliopetek.djhunter'
+        testRunner: 'android.support.test.runner.AndroidJUnitRunner'
 ]
 
 def configuration = ext.configuration

@@ -2,6 +2,8 @@ apply from: "$rootProject.projectDir/buildsystem/dependencies.gradle"
 apply from: "$rootProject.projectDir/buildsystem/configurations.gradle"
 
 apply plugin: 'com.android.application'
+apply plugin: 'groovyx.android'
+apply plugin: 'me.tatarka.retrolambda'
 
 def library = ext.library;
 def configuration = ext.configuration;
@@ -20,10 +22,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude 'META-INF/services/org.codehaus.groovy.transform.ASTTransformation'
+        exclude 'LICENSE.txt'
+    }
+
     defaultConfig {
         applicationId configuration.applicationId
-
-        jackOptions.enabled true
 
         minSdkVersion configuration.minimumSdkVersion
         targetSdkVersion configuration.targetSdkVersion
@@ -69,6 +74,28 @@ android {
 }
 
 dependencies {
+
+    // Support
     compile "${library.support_compat}"
     compile "${library.support_design}"
+    compile "${library.stream}"
+
+    // Rx
+    compile "${library.rx_java}"
+
+    // Network
+    compile "${library.jsoup}"
+    compile "${library.ok_http}"
+
+    // Testing
+    androidTestCompile "${library.spock_android}"
+    androidTestCompile "${library.testing_support}"
+    androidTestCompile "${library.spock}", {
+        exclude group: 'org.codehaus.groovy'
+        exclude group: 'junit'
+    }
+    androidTestCompile "${library.dex_maker}"
+
+    // Languages
+    androidTestCompile "${library.groovy}"
 }
