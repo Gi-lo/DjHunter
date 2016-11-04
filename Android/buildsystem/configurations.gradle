@@ -11,9 +11,4 @@ ext.configuration = [
         buildToolsVersion   : "23.0.2"
 ]
 
-ext.testConfiguration = [
-        testRunner: 'android.support.test.runner.AndroidJUnitRunner'
-]
-
 def configuration = ext.configuration
-def testConfiguration = ext.testConfiguration

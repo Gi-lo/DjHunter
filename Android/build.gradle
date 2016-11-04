@@ -13,7 +13,6 @@ buildscript {
 
     dependencies {
         classpath "${library.gradle}"
-        classpath "${library.groovy_plugin}"
         classpath "${library.retrolambda}"
     }
 }

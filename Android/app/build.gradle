@@ -2,12 +2,10 @@ apply from: "$rootProject.projectDir/buildsystem/dependencies.gradle"
 apply from: "$rootProject.projectDir/buildsystem/configurations.gradle"
 
 apply plugin: 'com.android.application'
-apply plugin: 'groovyx.android'
 apply plugin: 'me.tatarka.retrolambda'
 
 def library = ext.library;
 def configuration = ext.configuration;
-def testConfiguration = ext.testConfiguration;
 
 android {
     compileSdkVersion configuration.compileSdkVersion
@@ -35,8 +33,6 @@ android {
 
         versionCode = configuration.versionMajor * 1000000 + configuration.versionMinor * 10000 + configuration.versionPatch * 100 + configuration.versionBuild
         versionName = "${configuration.versionMajor}.${configuration.versionMinor}.${configuration.versionPatch}"
-
-        testInstrumentationRunner testConfiguration.testRunner
     }
 
     // Flavors
@@ -82,20 +78,9 @@ dependencies {
 
     // Rx
     compile "${library.rx_java}"
+    compile "${library.retrofit_rx_java_adapter}"
 
     // Network
     compile "${library.jsoup}"
-    compile "${library.ok_http}"
-
-    // Testing
-    androidTestCompile "${library.spock_android}"
-    androidTestCompile "${library.testing_support}"
-    androidTestCompile "${library.spock}", {
-        exclude group: 'org.codehaus.groovy'
-        exclude group: 'junit'
-    }
-    androidTestCompile "${library.dex_maker}"
-
-    // Languages
-    androidTestCompile "${library.groovy}"
+    compile "${library.retrofit}"
 }
